@@ -1,0 +1,42 @@
+#!/bin/sh -e
+
+cat - <<-EOF
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<rss version="2.0">
+		<channel>
+			<title>$TITLE</title>
+			<link>$LINK</link>
+			<description>$DESCRIPTION</description>
+		</channel>
+EOF
+
+for post in *.html; do
+	if [ "$post" = '*.html' ] || [ "$post" = 'index.html' ]; then
+		continue
+	fi
+
+	post=${post%.html}
+	title=$(head -n 1 < "$post.txt")
+
+	if [ ! -s "$post.guid" ]; then
+		printf '%s\n' "$post-r1" > "$post.guid"
+	elif [ "$(wc -l < "$post.guid")" -gt 1 ]; then
+		newguid=$(tail -n 1 < "$post.guid")
+		cat - > "$post.guid" <<-EOF
+			$newguid
+		EOF
+	fi
+	guid=$(cat "$post.guid")
+
+	cat - <<-EOF
+		<item>
+			<title>$title</title>
+			<author>$AUTHOR</author>
+			<link>$LINK/$post.html</link>
+			<guid>$guid</guid>
+		</item>
+	EOF
+done
+
+printf '%s\n' '</rss>'
+

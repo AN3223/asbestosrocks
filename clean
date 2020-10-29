@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+exec rm -f ./blog/*.html ./blog/feed.xml
