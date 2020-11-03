@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+<title>AN3223's Blog</title>
+<link>https://an3223.github.io/</link>
+<description>AN3223's Blog</description>
+</channel>
+<item>
+<title>this is the post title</title>
+<author>AN3223</author>
+<link>https://an3223.github.io//example.html</link>
+<guid>example-r1</guid>
+</item>
+</rss>
