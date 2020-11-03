@@ -32,7 +32,7 @@ for post in *.html; do
 		<item>
 			<title>$title</title>
 			<author>$AUTHOR</author>
-			<link>$LINK/$post.html</link>
+			<link>$LINK/blog/$post.html</link>
 			<guid>$guid</guid>
 		</item>
 	EOF
