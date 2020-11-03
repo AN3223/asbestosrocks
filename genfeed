@@ -5,7 +5,7 @@ cat - <<-EOF
 	<rss version="2.0">
 		<channel>
 			<title>$TITLE</title>
-			<link>$LINK</link>
+			<link>$LINK/blog/</link>
 			<description>$DESCRIPTION</description>
 		</channel>
 EOF
