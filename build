@@ -3,6 +3,8 @@
 # generate the appropriate html and rss files when they need to be
 # rebuilt. Think of this like a "make" file.
 
+export POSIXLY_CORRECT=1
+
 . ./blog.info/info
 export LINK TITLE AUTHOR DESCRIPTION
 
