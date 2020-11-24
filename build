@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 # This script "builds" the blog by calling out to the other scripts to
 # generate the appropriate html and rss files when they need to be
 # rebuilt. Think of this like a "make" file.
@@ -9,8 +9,9 @@ export POSIXLY_CORRECT=1
 export LINK TITLE AUTHOR DESCRIPTION
 
 cd blog
-
 unset -v feed_remake index_remake
+set -x
+
 for txt in *.txt; do
 	html=${txt%.txt}.html
 	if [ ! -f "$html" ] || [ "$(find "$txt" -newer "$html")" ]; then
