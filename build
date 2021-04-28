@@ -3,7 +3,7 @@
 # generate the appropriate html and rss files when they need to be
 # rebuilt. Think of this like a "make" file.
 
-export POSIXLY_CORRECT=1
+cd "$(dirname "$0")"
 
 . ./blog.info/info
 export LINK TITLE AUTHOR DESCRIPTION
@@ -25,7 +25,7 @@ if [ ! -f index.html ] || [ "$(find . -name '*.txt' -newer index.html)" ]; then
 fi
 
 if [ "$index_remake" ]; then
-	../genhtml *.txt > index.html
+	printf '%s\n' *.txt | sort -r | xargs ../genhtml > index.html
 fi
 
 if [ "$feed_remake" ]; then

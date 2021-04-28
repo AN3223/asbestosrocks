@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export POSIXLY_CORRECT=1
+cd "$(dirname "$0")"
 
 if [ ! "$*" ]; then
 	printf '%s\n' 'Please give a (list of) txt files to bump as arguments to this script' >&2

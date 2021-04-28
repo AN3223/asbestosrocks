@@ -7,7 +7,8 @@ header() {
 	<!DOCTYPE html>
 	<html>
 		<head>
-			<style>$(cat ../blog.info/css)</style>
+			<meta charset="utf-8">
+			<style>$(tr -d '\n\t' < ../blog.info/css)</style>
 			<title>$1</title>
 		</head>
 		<body>
@@ -26,7 +27,7 @@ for post; do
 	read -r title
 
 	if [ "$#" -gt 1 ]; then
-		# generate hyperlinks for each post when generating a homepage
+		# generate hyperlinks for each post when generating an index.html
 		printf '%s\n' "<a href=\"${post%.txt}.html\">" \
 			"<h2>$title</h2>" \
 			'</a>'
@@ -35,26 +36,34 @@ for post; do
 		printf '%s\n' "<h1>$title</h1>"
 	fi
 
-	while read -r line; do
+	while IFS= read -r line; do
 		case "$line" in
 			'')
 				;;
 			.img' '*) # syntax: .img src [alt...]
-				line=${line#.img }
-				src=${line%% *}
-				alt=${line#* }
+				line=${line#.img }; src=${line%% *}; alt=${line#* };
 				printf '%s\n' "<a href=\"$src\">" \
 					"<img src=\"$src\" alt=\"$alt\">" \
 					'</a>'
 				;;
-			.link' '*) # syntax: .link [text shown before] link
-				line=${line#.link }
-				before=${line% *}
-				link=${line##* }
-				printf '%s\n' '<p>' \
-					"$before" \
-					"<a href=\"$link\">$link</a>" \
-					'</p>'
+			.link' '*) # syntax: .link link [text shown before...]
+				read -r link text <<-EOF
+					${line#.link }
+				EOF
+				printf '%s\n' '<p>' "$text" "<a href=\"$link\">$link</a>" '</p>'
+				;;
+			.section' '*) # syntax: .section section
+				printf '%s\n' "<h2 id=\"${line#.section }\">" "${line#.section }" '</h2>'
+				;;
+			.index)
+				sed -n '
+					1a <h2>Contents</h2><ul>
+					/^\.section / {
+						s/^\.section //
+						s|.*|<li><a href="#&">&</a></li>|p
+					}
+					$a </ul>
+				' < "$post"
 				;;
 			*)
 				printf '%s\n' "<p>$line</p>"

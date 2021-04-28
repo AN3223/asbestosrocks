@@ -1,9 +1,0 @@
-this is the post title
-
-this is a test paragraph
-
-this is another test paragraph
-
-.img images/Wikipedia-logo-en-big.png this is a test image
-
-.link this is a test link https://en.wikipedia.org/wiki/File:Wikipedia-logo-en-big.png
