@@ -1,5 +1,6 @@
 * {
-	font: medium monospace, monospace;
+	font-family: monospace;
+	font-size: medium;
 	color: #ebdbb2;
 }
 
