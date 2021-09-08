@@ -4,7 +4,6 @@
 <title>AN3223's Blog</title>
 <link>https://an3223.github.io//blog/</link>
 <description>AN3223's Blog</description>
-</channel>
 <item>
 <title>this is the post title</title>
 <author>AN3223</author>
@@ -17,4 +16,5 @@
 <link>https://an3223.github.io//blog/20210907_shelldonts.html</link>
 <guid>20210907_shelldonts-r1</guid>
 </item>
+</channel>
 </rss>
