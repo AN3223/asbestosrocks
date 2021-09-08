@@ -74,6 +74,7 @@ Arbitrary arguments that may start with a hyphen
 <p>An alternative option would be to "sanitize" the filename like so: case "$file" in -*) file=./"$file" ;; esac</p>
 <p>Another solution is to use the -- argument to signal the end of options to your command, so anything after the -- can't be interpreted as an option. For example 'cp -- *.png pngs/' to copy PNG files into the directory pngs. Although this solution should be pretty portable, it's not POSIX so I prefer to avoid this.</p>
 <p>In the case of arbitrary grep expressions you can prefix each expression with the -e option.</p>
+<p>Filename arguments to awk may be interpreted as variable assignments if the argument contains any occurrences of = (thanks to Reddit user u/oh5nxo for sharing this!). If you're passing arbitrary filename arguments to awk, like through a glob, consider using input redirection, cat + pipe (for multiple files), or use a case statement to make sure the filenames don't contain any =.</p>
 <h2 id="Globs">
 Globs
 </h2>
