@@ -57,7 +57,7 @@ for post; do
 				;;
 			.index)
 				sed -n '
-					1a <h2>Contents</h2><ul>
+					1i <h2>Contents</h2><ul>
 					/^\.section / {
 						s/^\.section //
 						s|.*|<li><a href="#&">&</a></li>|p
