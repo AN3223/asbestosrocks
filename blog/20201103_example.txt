@@ -4,6 +4,10 @@ this is a test paragraph
 
 this is another test paragraph
 
+this is a &lt;pre&gt;\
+	see how i can indent stuff?\
+	and the lines dont get double-lined either
+
 below is a test index:
 
 .index

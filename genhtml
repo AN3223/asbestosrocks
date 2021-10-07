@@ -8,14 +8,13 @@ header() {
 	<html>
 		<head>
 			<meta charset="utf-8">
-			<style>$(tr -d '\n\t' < ../blog.info/css)</style>
+			<style>$(tr -d '\n\t' < ../blog.info/css || :)</style>
 			<title>$1</title>
 		</head>
 		<body>
-			$(cat ../blog.info/header)
+			$(cat ../blog.info/header || :)
 	EOF
 }
-
 
 if [ "$#" -gt 1 ]; then
 	header "$TITLE"
@@ -39,6 +38,10 @@ for post; do
 	while IFS= read -r line; do
 		case "$line" in
 			'')
+				if [ "$multiline" ]; then
+					printf '%s\n' '</pre>'
+					unset -v multiline
+				fi
 				;;
 			.img' '*) # syntax: .img src [alt...]
 				line=${line#.img }; src=${line%% *}; alt=${line#* };
@@ -65,14 +68,27 @@ for post; do
 					$a </ul>
 				' < "$post"
 				;;
+			*'\')
+				if [ "$multiline" ]; then
+					printf '%s\n' "${line%'\'}"
+				else
+					multiline=1
+					printf '%s\n' "<pre>${line%'\'}"
+				fi
+				;;
 			*)
-				printf '%s\n' "<p>$line</p>"
+				if [ "$multiline" ]; then
+					printf '%s\n' "$line</pre>"
+				else
+					printf '%s\n' "<p>$line</p>"
+				fi
+				unset -v multiline
 				;;
 		esac
 	done
 done
 
-cat ../blog.info/footer
+cat ../blog.info/footer || :
 
 # close open tags
 printf '%s\n' '</body>' '</html>'
