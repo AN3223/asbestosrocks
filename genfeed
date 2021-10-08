@@ -9,12 +9,10 @@ cat - <<-EOF
 			<description>$DESCRIPTION</description>
 EOF
 
-for post in *.html; do
-	if [ "$post" = '*.html' ] || [ "$post" = 'index.html' ]; then
-		continue
-	fi
+for post in *.txt; do
+	[ "$post" != '*.txt' ] || continue
 
-	post=${post%.html}
+	post=${post%.txt}
 	title=$(head -n 1 < "$post.txt")
 
 	if [ ! -s "$post.guid" ]; then

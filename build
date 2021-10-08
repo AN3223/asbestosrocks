@@ -28,7 +28,7 @@ if [ "$index_remake" ]; then
 	printf '%s\n' *.txt | sort -r | xargs ../genhtml > index.html
 fi
 
-if [ "$feed_remake" ]; then
+if [ "$feed_remake" ] || [ ! -f feed.xml ]; then
 	../genfeed > feed.xml
 fi
 

@@ -7,19 +7,19 @@
 <item>
 <title>this is the post title</title>
 <author>AN3223</author>
-<link>https://an3223.github.io//blog/20201103_example.html</link>
+<link>https://an3223.github.io//blog/2020-11-03_example.html</link>
 <guid>example-r1</guid>
 </item>
 <item>
 <title>Common and not-so-common *nix shell footguns</title>
 <author>AN3223</author>
-<link>https://an3223.github.io//blog/20210907_shelldonts.html</link>
+<link>https://an3223.github.io//blog/2021-09-07_shelldonts.html</link>
 <guid>20210907_shelldonts-r1</guid>
 </item>
 <item>
 <title>Simple headless Kiwix setup for offline Wikipedia</title>
 <author>AN3223</author>
-<link>https://an3223.github.io//blog/20211007_kiwixsetup.html</link>
+<link>https://an3223.github.io//blog/2021-10-07_kiwixsetup.html</link>
 <guid>20211007_kiwixsetup-r1</guid>
 </item>
 </channel>
