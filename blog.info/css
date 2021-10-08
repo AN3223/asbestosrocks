@@ -22,3 +22,12 @@ img {
 	height: 80%;
 	width: 80%;
 }
+
+pre {
+	overflow: auto;
+	background: #ebdbb2;
+	color: #282828;
+	padding: .3rem .5rem;
+	border-radius: .2rem;
+}
+
