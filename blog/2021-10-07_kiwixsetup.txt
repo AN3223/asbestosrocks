@@ -34,6 +34,8 @@ Now you need ZIM files for Kiwix to actually serve, these files contain the actu
 
 .link https://dumps.wikimedia.org/other/kiwix/zim/wikipedia/
 
+.link https://download.kiwix.org/zim/ EDIT: You can find many more ZIM files for other MediaWiki sites (including the Arch Wiki!) here:
+
 To find the ZIM file(s) you want, you should understand the format of these filenames:
 
 wikipedia_&lt;<a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1</a>&gt;_&lt;topic&gt;_&lt;scope&gt;_&lt;year&gt;-&lt;month&gt;.zim\
