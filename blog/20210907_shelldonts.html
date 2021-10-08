@@ -97,31 +97,49 @@ Accidentally globbing
 Read without -r
 </h2>
 <p>Consider the following code:</p>
-<p><pre>read test <<-EOF<br>	test\\test\\<br>	test<br>EOF<br>printf '%s\n' "$test"</pre></p>
+<pre>read test <<-EOF 
+	test\\test\\ 
+	test 
+EOF 
+printf '%s\n' "$test"</pre>
 <p>It should be expected that this would print the first line of the here-document literally, but instead it prints testtesttest. So there are two issues here, it discards both backslashes and it reads two lines of text instead of one. For the correct behavior the -r flag should be passed to read, which is virtually always what you want.</p>
 <h2 id="Overusing sed">
 Overusing sed
 </h2>
 <p>Sed is a very versatile program (the index at the top of this page is generated with sed!), but sometimes it's overkill. Here are some trivial tasks that you can do without sed:</p>
 <p>Appending/prepending text to the end of a string:</p>
-<p><pre>stringtext=${string}text<br>textstring=text${string}</pre></p>
+<pre>stringtext=${string}text 
+textstring=text${string}</pre>
 <p>Stripping a simple prefix/suffix from a string (mnemonic: # (prefix) is before % (suffix) on the keyboard's number row, double #/% make it "greedy", matching as much as possible):</p>
-<p><pre>extension=${string##*.}<br>filename_without_extension=${string%.*}</pre></p>
+<pre>extension=${string##*.} 
+filename_without_extension=${string%.*}</pre>
 <p>Stripping characters from both ends of a string (IFS should be whatever character you want stripped from each end, in this case spaces are stripped from both ends):</p>
-<p><pre>IFS=' ' read -r var <<-EOF<br>	$var<br>EOF</pre></p>
+<pre>IFS=' ' read -r var <<-EOF 
+	$var 
+EOF</pre>
 <h2 id="Overusing grep">
 Overusing grep
 </h2>
 <p>Much like sed, grep is also very versatile but sometimes overkill. Many times people use grep because they think they need regex, but simple pattern matching may suffice. For example if you want to check if a string contains a phone number in a simple format you might do:</p>
-<p><pre>case "$string" in<br>	[0-9][0-9][0-9][' '\).-][0-9][0-9][0-9][' '.-][0-9][0-9][0-9][0-9])<br>		...<br>		;;<br>esac</pre></p>
+<pre>case "$string" in 
+	[0-9][0-9][0-9][' '\).-][0-9][0-9][0-9][' '.-][0-9][0-9][0-9][0-9]) 
+		... 
+		;; 
+esac</pre>
 <h2 id="Not taking care of background jobs">
 Not taking care of background jobs
 </h2>
 <p>When your script ends, any background jobs that are still running will get orphaned, and that is usually not what you want. You almost always want to use the "wait" command in some capacity, this will block until all background jobs are finished.</p>
 <p>You also need a trap to kill your background jobs when your script gets killed. Here's a dirty solution:</p>
-<p><pre>#!/bin/sh -e<br>trap 'trap - EXIT HUP QUIT TERM INT ABRT; kill $(ps -o pid= --ppid $$) > /dev/null 2>&1' EXIT HUP QUIT TERM INT ABRT<br>sleep 1000 &<br>wait</pre></p>
+<pre>#!/bin/sh -e 
+trap 'trap - EXIT HUP QUIT TERM INT ABRT; kill $(ps -o pid= --ppid $$) > /dev/null 2>&1' EXIT HUP QUIT TERM INT ABRT 
+sleep 1000 & 
+wait</pre>
 <p>This works, but it isn't POSIX (because of the --ppid flag to ps). You could instead rely on pkill (also not POSIX):</p>
-<p><pre>#!/bin/sh -e<br>trap 'trap - EXIT HUP QUIT TERM INT ABRT; pkill -P $$' EXIT HUP QUIT TERM INT ABRT<br>sleep 1000 &<br>wait</pre></p>
+<pre>#!/bin/sh -e 
+trap 'trap - EXIT HUP QUIT TERM INT ABRT; pkill -P $$' EXIT HUP QUIT TERM INT ABRT 
+sleep 1000 & 
+wait</pre>
 <p>If you're confused why I reset the trap from within the trap, see <a href="#Double executing traps">Double executing traps</a>.</p>
 <h2 id="Making files in /tmp/ without mktemp(1)">
 Making files in /tmp/ without mktemp(1)
@@ -156,12 +174,18 @@ Double executing traps
 Using a bare &&
 </h2>
 <p>This is fairly common to find in shell scripts and usually doesn't cause any issues. But consider the following script:</p>
-<p><pre>#!/bin/sh -e<br>a && b<br>c</pre></p>
+<pre>#!/bin/sh -e 
+a && b 
+c</pre>
 <p>If "a" throws an error then the shell will continue to "c" because && "handles" the error. But if "c" is removed like so:</p>
-<p><pre>#!/bin/sh -e<br>a && b</pre></p>
+<pre>#!/bin/sh -e 
+a && b</pre>
 <p>Then when "a" exits with an error, the script will exit with the same exit status. This means you get an error even though you <i>really</i> shouldn't, which can be an issue if your script is invoked by another script where the exit status is important.</p>
 <p>The solution would be to run the command in an if statement instead:</p>
-<p><pre>#!/bin/sh -e<br>if a; then<br>	b<br>fi</pre></p>
+<pre>#!/bin/sh -e 
+if a; then 
+	b 
+fi</pre>
 <p>Although this is only a problem when the && expression is the final command of the script, I avoid it all of the time because it can be especially deceptive. The final command of the script is often not the final line of the script (functions, subshells, eval), the final command can vary when your script ends in an if-statement, and commands tend to get shuffled around as the script's code evolves over time.</p>
 <h2 id="Contribute to this post">
 Contribute to this post
