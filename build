@@ -8,12 +8,12 @@ cd "$(dirname "$0")"
 . ./blog.info/info
 export LINK TITLE AUTHOR DESCRIPTION
 
-cd blog
+cd text
 unset -v feed_remake index_remake
 set -x
 
 for txt in *.txt; do
-	html=${txt%.txt}.html
+	html=../blog/${txt%.txt}.html
 	if [ ! -f "$html" ] || [ "$(find "$txt" -newer "$html")" ]; then
 		../genhtml "$txt" > "$html"
 		feed_remake=1
@@ -25,10 +25,10 @@ if [ ! -f index.html ] || [ "$(find . -name '*.txt' -newer index.html)" ]; then
 fi
 
 if [ "$index_remake" ]; then
-	find . -name '*.txt' | sort -r | ../genindex > index.html
+	find . -name '*.txt' | sort -r | ../genindex > ../blog/index.html
 fi
 
 if [ "$feed_remake" ] || [ ! -f feed.xml ]; then
-	../genfeed > feed.xml
+	../genfeed > ../blog/feed.xml
 fi
 
