@@ -1,95 +1,62 @@
 #!/bin/sh -e
-# This script takes a txt file (or multiple) and generates the
-# appropriate html file (or index.html).
+# This script takes a txt file and generates the appropriate html file
 
-header() {
-	cat - <<-EOF
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<meta charset="utf-8">
-			<style>$(tr -d '\n\t' < ../blog.info/css || :)</style>
-			<title>$1</title>
-		</head>
-		<body>
-			$(cat ../blog.info/header || :)
-	EOF
-}
+exec < "$1"
+read -r title
+../htmlheader "$title"
+printf '%s\n' "<h1>$title</h1>"
 
-if [ "$#" -gt 1 ]; then
-	header "$TITLE"
-fi
-
-unset -v title
-for post; do
-	exec < "$post"
-	read -r title
-
-	if [ "$#" -gt 1 ]; then
-		# generate hyperlinks for each post when generating an index.html
-		printf '%s\n' "<a href=\"${post%.txt}.html\">" \
-			"<h2>$title</h2>" \
-			'</a>'
-	else
-		header "$title"
-		printf '%s\n' "<h1>$title</h1>"
-	fi
-
-	while IFS= read -r line; do
-		case "$line" in
-			'')
-				if [ "$multiline" ]; then
-					printf '%s\n' '</pre>'
-					unset -v multiline
-				fi
-				;;
-			.img' '*) # syntax: .img src [alt...]
-				line=${line#.img }; src=${line%% *}; alt=${line#* };
-				printf '%s\n' "<a href=\"$src\">" \
-					"<img src=\"$src\" alt=\"$alt\">" \
-					'</a>'
-				;;
-			.link' '*) # syntax: .link link [text shown before...]
-				read -r link text <<-EOF
-					${line#.link }
-				EOF
-				printf '%s\n' '<p>' "$text" "<a href=\"$link\">$link</a>" '</p>'
-				;;
-			.section' '*) # syntax: .section section
-				printf '%s\n' "<h2 id=\"${line#.section }\">" "${line#.section }" '</h2>'
-				;;
-			.index)
-				sed -n '
-					1i <h2>Contents</h2><ul>
-					/^\.section / {
-						s/^\.section //
-						s|.*|<li><a href="#&">&</a></li>|p
-					}
-					$a </ul>
-				' < "$post"
-				;;
-			*'\')
-				if [ "$multiline" ]; then
-					printf '%s\n' "${line%'\'}"
-				else
-					multiline=1
-					printf '%s\n' "<pre>${line%'\'}"
-				fi
-				;;
-			*)
-				if [ "$multiline" ]; then
-					printf '%s\n' "$line</pre>"
-				else
-					printf '%s\n' "<p>$line</p>"
-				fi
+while IFS= read -r line; do
+	case "$line" in
+		'')
+			if [ "$multiline" ]; then
+				printf '%s\n' '</pre>'
 				unset -v multiline
-				;;
-		esac
-	done
+			fi
+			;;
+		.img' '*) # syntax: .img src [alt...]
+			line=${line#.img }; src=${line%% *}; alt=${line#* };
+			printf '%s\n' "<a href=\"$src\">" \
+				"<img src=\"$src\" alt=\"$alt\">" \
+				'</a>'
+			;;
+		.link' '*) # syntax: .link link [text shown before...]
+			read -r link text <<-EOF
+				${line#.link }
+			EOF
+			printf '%s\n' '<p>' "$text" "<a href=\"$link\">$link</a>" '</p>'
+			;;
+		.section' '*) # syntax: .section section
+			printf '%s\n' "<h2 id=\"${line#.section }\">" "${line#.section }" '</h2>'
+			;;
+		.index)
+			sed -n '
+				1i <h2>Contents</h2><ul>
+				/^\.section / {
+					s/^\.section //
+					s|.*|<li><a href="#&">&</a></li>|p
+				}
+				$a </ul>
+			' < "$1"
+			;;
+		*'\')
+			if [ "$multiline" ]; then
+				printf '%s\n' "${line%'\'}"
+			else
+				multiline=1
+				printf '%s\n' "<pre>${line%'\'}"
+			fi
+			;;
+		*)
+			if [ "$multiline" ]; then
+				printf '%s\n' "$line</pre>"
+			else
+				printf '%s\n' "<p>$line</p>"
+			fi
+			unset -v multiline
+			;;
+	esac
 done
 
-cat ../blog.info/footer || :
-
-# close open tags
-printf '%s\n' '</body>' '</html>'
+../htmlfooter
 
