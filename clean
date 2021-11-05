@@ -1,5 +1,5 @@
 #!/bin/sh -e
 
 cd "$(dirname "$0")"
-exec find ./blog/ -type f -name '*.html' -o -name 'feed.xml' -exec rm -f {} +
+exec find ./blog/ -type f '(' -name '*.html' -o -name 'feed.xml' ')' -exec rm -f {} +
 
