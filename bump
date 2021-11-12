@@ -8,18 +8,17 @@ if [ ! "$*" ]; then
 fi
 
 for arg; do
-	arg=${arg%.txt}
-
-	if [ ! -f "$arg.guid" ]; then
-		printf '%s\n' "No GUID file for $arg (run the build script first)" >&2
+	guidf="../guid/$arg.guid"
+	if [ ! -f "$guidf" ]; then
+		printf '%s\n' "No GUID file for $arg (run build script first)" >&2
 		exit 1
 	fi
 
-	guid=$(cat "$arg.guid")
+	guid=$(cat "$guidf")
 	revision=${guid##*-r}
 	title=${guid%%-*}
 
-	cat - > "$arg.guid" <<-EOF
+	cat - > "$guidf" <<-EOF
 		$title-r$((revision+1))
 	EOF
 done

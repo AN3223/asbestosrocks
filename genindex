@@ -3,9 +3,7 @@
 ../htmlheader "$TITLE"
 printf '%s\n' '<ul>'
 while read -r txt; do
-	title=$(head -n 1 "$txt")
-	link="${txt%.txt}.html"
-	printf '%s\n' "<li><a href=\"$link\">$title</a>"
+	printf '%s\n' "<li><a href=\"$txt.html\">$(head -n 1 "$txt")</a>"
 done
 printf '%s\n' '</ul>'
 ../htmlfooter

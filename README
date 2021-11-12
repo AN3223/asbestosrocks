@@ -1,25 +1,24 @@
 The goal here is to have a simple blog, just HTML+RSS, without having to write
 it all by hand. The blogger writes a simple text file with one paragraph per
-line, and it gets automatically converted into an HTML document. The text file
-can also contain directives for generating certain elements (see
-blog/example.txt).
+line, which gets converted to an HTML document. The text file can also contain
+directives for generating certain elements (see text/.example).
 
-If you want to use this setup to host your own blog then simply fork this repo
-and delete the contents of the blog/ directory, then personalize the files in
-blog.info/ to fit your blog. When you're ready to post, just run the ./build
-script then commit and push your changes!
+If you want to use this setup to host your own blog then simply:
 
-For the blog to be hosted on Github pages you'll need to set the title of the
-repo to <your username>.github.io and then you will be able to find the blog at
-<your username>.github.io/blog/
+1) Fork this repo (for Github Pages, repo name must be <username>.github.io)
+2) rm -r ./text/* ./blog/*
+3) Edit the files in ./blog.info/ to personalize your blog
+4) Write posts in ./text/*
+5) ./build
+6) Share your posts by committing + pushing your changes
 
-The RSS feed will get automatically updated by the blog's build script so you
-shouldn't need to worry about it. But in the rare case where you want to
-re-push the post to the feed (for example you've made a major edit and you
-don't want it to go "under the radar" for your RSS users) then you should run
-./bump ./blog/post.txt (where post.txt is the post you want to re-push to the
-RSS feed) instead of running the build script. In the RSS reader this will
-appear as if the post was duplicated.
+The posts will be in the blog/ directory, you may want to set this as the blog
 
-To be clear, you don't need to use the bump script for your blog to have RSS
-functionality, the build script will handle that for you automatically.
+The RSS feed is automatically updated by ./build so you usually shouldn't worry
+about it. But in the rare case you want to re-push the post to the feed (e.g.,
+you've made a major correction and you don't want it to go unnoticed by your
+RSS subscribers) then run ./bump ./blog/<post> (where <post> is the post to be
+re-pushed to the RSS feed). In the RSS reader this will appear as if the post
+was duplicated. This may be annoying for RSS subscribers, so use this
+sparingly.
+

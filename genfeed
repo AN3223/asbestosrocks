@@ -5,32 +5,29 @@ cat - <<-EOF
 	<rss version="2.0">
 		<channel>
 			<title>$TITLE</title>
-			<link>$LINK/blog/</link>
+			<link>$LINK/</link>
 			<description>$DESCRIPTION</description>
 EOF
 
-for post in *.txt; do
-	[ "$post" != '*.txt' ] || continue
+for post in *; do
+	[ -f "$post" ] || continue
 
-	post=${post%.txt}
-	title=$(head -n 1 < "$post.txt")
-
-	if [ ! -s "$post.guid" ]; then
-		printf '%s\n' "$post-r1" > "$post.guid"
-	elif [ "$(wc -l < "$post.guid")" -gt 1 ]; then
-		newguid=$(tail -n 1 < "$post.guid")
-		cat - > "$post.guid" <<-EOF
+	guid="../guid/$post.guid"
+	if [ ! -s "$guid" ]; then
+		printf '%s\n' "$post-r1" > "$guid"
+	elif [ "$(wc -l < "$guid")" -gt 1 ]; then
+		newguid=$(tail -n 1 < "$guid")
+		cat - > "$guid" <<-EOF
 			$newguid
 		EOF
 	fi
-	guid=$(cat "$post.guid")
 
 	cat - <<-EOF
 		<item>
-			<title>$title</title>
+			<title>$(head -n 1 < "$post")</title>
 			<author>$AUTHOR</author>
-			<link>$LINK/blog/$post.html</link>
-			<guid>$guid</guid>
+			<link>$LINK/$post.html</link>
+			<guid>$(cat "$guid")</guid>
 		</item>
 	EOF
 done

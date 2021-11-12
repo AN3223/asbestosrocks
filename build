@@ -1,7 +1,4 @@
-#!/bin/sh -e
-# This script "builds" the blog by calling out to the other scripts to
-# generate the appropriate html and rss files when they need to be
-# rebuilt. Think of this like a "make" file.
+#!/bin/sh -ex
 
 cd "$(dirname "$0")"
 
@@ -10,22 +7,21 @@ export LINK TITLE AUTHOR DESCRIPTION
 
 cd text
 unset -v feed_remake index_remake
-set -x
 
-for txt in *.txt; do
-	html=../blog/${txt%.txt}.html
+for txt in *; do
+	html="../blog/$txt.html"
 	if [ ! -f "$html" ] || [ "$(find "$txt" -newer "$html")" ]; then
 		../genhtml "$txt" > "$html"
 		feed_remake=1
 	fi
 done
 
-if [ ! -f index.html ] || [ "$(find . -name '*.txt' -newer index.html)" ]; then
+if [ ! -f index.html ] || [ "$(find . -type f -newer index.html)" ]; then
 	index_remake=1
 fi
 
 if [ "$index_remake" ]; then
-	find . -name '*.txt' | sort -r | ../genindex > ../blog/index.html
+	find . -type f | sort -r | ../genindex > ../blog/index.html
 fi
 
 if [ "$feed_remake" ] || [ ! -f feed.xml ]; then

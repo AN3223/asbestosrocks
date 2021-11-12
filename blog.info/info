@@ -1,5 +1,5 @@
 # vi: ft=sh
-LINK="https://an3223.github.io/"
+LINK="https://an3223.github.io"
 AUTHOR="AN3223"
 TITLE="$AUTHOR's Blog"
 DESCRIPTION="$TITLE"
