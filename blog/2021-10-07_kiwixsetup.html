@@ -11,7 +11,7 @@
 </a>
 <h1>Simple headless Kiwix setup for offline Wikipedia</h1>
 <p>I read a lot of Wikipedia. According to my browser history I have visited 70 Wikipedia articles this week (only in qutebrowser, I have w3m and Firefox set to discard history, so the true number is probably quite a bit higher). Even the design of this blog is pretty clearly influenced by Wikipedia.</p>
-<p>There are multiple reasons one may want to access Wikipedia locally. Your internet may go down, you may plan to be in a place that doesn't have internet at all, your internet may be censored, you might not want your ISP or government knowing (when) you are accessing Wikipedia, you might not want Wikipedia themselves to know what articles you are reading, or you might just want to be <b>cool</b>.</p>
+<p>There are multiple reasons one may want to access Wikipedia locally. Your internet may go down, you may plan to be in a place that doesn't have internet at all, your internet may be censored, you might not want your ISP or government knowing (when) you are accessing Wikipedia, you might not want Wikipedia themselves to know what articles you are reading, or you might just want to be *cool*.</p>
 <p>This post provides instructions for setting up Kiwix on an Alpine Linux system. Although some advice is provided for other Linux distributions, you'll need to know how to work with your package manager and your init system in order to follow along on another distro.</p>
 <h2>Contents</h2><ul>
 <li><a href="#Installation">Installation</a></li>
@@ -50,7 +50,7 @@ EDIT: You can find many more ZIM files for other MediaWiki sites (including the 
 <p>To find the ZIM file(s) you want, you should understand the format of these filenames:</p>
 <pre>wikipedia_&lt;<a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1</a>&gt;_&lt;topic&gt;_&lt;scope&gt;_&lt;year&gt;-&lt;month&gt;.zim
 </pre>
-<p>The "topic" restricts the set of articles to a single topic (e.g., computer, geography, chemistry), which can be "all" for no topic restriction. The "scope" describes what parts of each article are (not) stored. The "mini" scope provides <i>only</i> <a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Lead_section">lead sections</a> of articles (usually the first 1-4 paragraphs) and the <a href="https://en.wikipedia.org/wiki/Help:Infobox">info boxes</a>. The "nopic" scope provides whole articles minus any pictures. The "maxi" scope consists of whole articles, pictures and all.</p>
+<p>The "topic" restricts the set of articles to a single topic (e.g., computer, geography, chemistry), which can be "all" for no topic restriction. The "scope" describes what parts of each article are (not) stored. The "mini" scope provides _only_ <a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Lead_section">lead sections</a> of articles (usually the first 1-4 paragraphs) and the <a href="https://en.wikipedia.org/wiki/Help:Infobox">info boxes</a>. The "nopic" scope provides whole articles minus any pictures. The "maxi" scope consists of whole articles, pictures and all.</p>
 <p>As you can imagine, all of these variables greatly impact the filesize. Here's a fun one-liner to find the biggest ZIM file:</p>
 <pre>$ w3m -dump https://dumps.wikimedia.org/other/kiwix/zim/wikipedia/ | 
 	tail -n +6 | head -n -2 | 
@@ -58,8 +58,9 @@ EDIT: You can find many more ZIM files for other MediaWiki sites (including the 
 <p>As of writing, this outputs:</p>
 <pre>wikipedia_en_all_maxi_2021-03.zim                  30-Mar-2021 19:26         88082131032
 </pre>
-<p>That's 88 gigabytes, so you will likely want to opt for something smaller. I decided I want a "mini" version of all of English Wikipedia, a "nopic" version of all computer-related English Wikipedia articles, and a "maxi" version of the top 100 Wikipedia articles. The curl command ended up looking like this <b>(note: this command won't work in the future because the available dates will change, you should get the latest archives instead from the link above)</b>:</p>
-<pre>$ curl -O https://dumps.wikimedia.org/other/kiwix/zim/wikipedia/wikipedia_en_all_mini_2021-08.zim \
+<p>That's 88 gigabytes, so you will likely want to opt for something smaller. I decided I want a "mini" version of all of English Wikipedia, a "nopic" version of all computer-related English Wikipedia articles, and a "maxi" version of the top 100 Wikipedia articles. The curl command ended up looking like this:</p>
+<pre># don't run this command verbatim, get up to date links from the resources above 
+$ curl -O https://dumps.wikimedia.org/other/kiwix/zim/wikipedia/wikipedia_en_all_mini_2021-08.zim \
 	-O https://dumps.wikimedia.org/other/kiwix/zim/wikipedia/wikipedia_en_computer_nopic_2021-09.zim \
 	-O https://dumps.wikimedia.org/other/kiwix/zim/wikipedia/wikipedia_en_100_maxi_2021-09.zim
 </pre>
