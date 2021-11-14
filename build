@@ -2,9 +2,6 @@
 
 cd "$(dirname "$0")"
 
-. ./blog.info/info
-export LINK TITLE AUTHOR DESCRIPTION
-
 cd text
 unset -v feed_remake index_remake HTML
 
