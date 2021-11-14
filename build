@@ -8,7 +8,7 @@ for txt in ./text/*; do
 	html="./blog/${txt##*/}.html"
 	if [ ! -f "$html" ] || [ "$(find "$txt" -newer "$html")" ]; then
 		./genhtml "$txt" > "$html"
-		./genplain < "$txt" > ./phlog/"${txt##*/}"
+		./genplain < "$txt" > ./phlog/"${txt##*/}.txt"
 		feed_remake=1
 	fi
 done
