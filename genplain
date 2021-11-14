@@ -1,0 +1,17 @@
+#!/bin/sed -f
+
+s/&lt;/</g
+s/&gt;/>/g
+
+s/\\$//
+
+/^.index$/d
+
+/^.section / {
+	s/^.section //
+	h;s/./=/g;p;x;p;x;
+}
+
+s/^.link //
+s/^.img //
+

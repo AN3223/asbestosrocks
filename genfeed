@@ -26,7 +26,7 @@ for post in *; do
 		<item>
 			<title>$(head -n 1 < "$post")</title>
 			<author>$AUTHOR</author>
-			<link>$LINK/$post.html</link>
+			<link>$LINK/$post${HTML+.html}</link>
 			<guid>$(cat "$guid")</guid>
 		</item>
 	EOF

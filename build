@@ -6,17 +6,19 @@ cd "$(dirname "$0")"
 export LINK TITLE AUTHOR DESCRIPTION
 
 cd text
-unset -v feed_remake index_remake
+unset -v feed_remake index_remake HTML
 
 for txt in *; do
 	html="../blog/$txt.html"
 	if [ ! -f "$html" ] || [ "$(find "$txt" -newer "$html")" ]; then
 		../genhtml "$txt" > "$html"
+		../genplain "$txt" > ../phlog/"$txt"
 		feed_remake=1
 	fi
 done
 
-if [ ! -f index.html ] || [ "$(find . -type f -newer index.html)" ]; then
+idx=../blog/index.html
+if [ ! -f "$idx" ] || [ "$(find . -type f -newer "$idx")" ]; then
 	index_remake=1
 fi
 
@@ -25,6 +27,7 @@ if [ "$index_remake" ]; then
 fi
 
 if [ "$feed_remake" ] || [ ! -f feed.xml ]; then
-	../genfeed > ../blog/feed.xml
+	HTML=1 ../genfeed > ../blog/feed.xml
+	../genfeed > ../phlog/feed.xml
 fi
 
