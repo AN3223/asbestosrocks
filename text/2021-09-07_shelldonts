@@ -22,7 +22,7 @@ Different implementations of echo can vary greatly in behavior. Implementations 
 
 You can usually replace invocations of echo with printf(1), oftentimes using '%s\n' (*not* arbitrary data) as the format string (printf's first argument).
 
-For writing the contents of a variable to the standard input of a command, see the <a href="#Pipes">Pipes</a> section.
+For writing the contents of a variable to the standard input of a command, see the "Pipes" section.
 
 .section Unnecessary use of cat
 
@@ -34,7 +34,7 @@ A valid use of cat would be "cat file1 file2 ..." which would print the contents
 
 Bash, as well as other shells such as zsh and ksh, provide extensions to the shell language that are genuinely useful, but many simple scripts that don't take advantage of these extensions still create a dependency on a specific shell (usually bash) through the use of certain commands, options, and the shebang.
 
-For the shebang, you can simply make it #!/bin/sh (or preferably <a href="#Error handling">#!/bin/sh -e</a>). This signifies that the script is meant to be ran by the POSIX-compliant system shell, located at /bin/sh (this is often bash, so it may continue to allow bashisms, be sure to test your script using dash, busybox ash, or some other minimalist shell).
+For the shebang, you can simply make it #!/bin/sh (or preferably #!/bin/sh -e, see the "Error handling" section). This signifies that the script is meant to be ran by the POSIX-compliant system shell, located at /bin/sh (this is often bash, so it may continue to allow bashisms, be sure to test your script using dash, busybox ash, or some other minimalist shell).
 
 A common issue is the use of [[ in place of [ or test(1). Usages of [[ can often be simply substituted for [ but sometimes minor changes need to be made. For [[ statements that use pattern matching or regex, the case statement may be used instead (as long as the regex can be expressed as a pattern, otherwise you may want to try grep, sed, or awk). Expressions using the || or && operators should be broken into multiple [ expressions (you could substitute them with the equivalent -a and -o operators, but it's much more readable to do separate [ commands).
 
@@ -46,7 +46,7 @@ shellcheck(1) and checkbashisms(1) can detect some of these things automatically
 
 Many shell scripts out there utilize little to no error handling at all, so when things go bad they can go _really_ bad. This is because errors are ignored/trampled over by default.
 
-To tell the shell to exit on an error you can append an -e to the shebang (#!/bin/sh -e), or run "set -e" at the top of the script. In my opinion you should _always_ do this. From here you can handle errors with the "if" statement or with the || operator, and you can still observe exit statuses with the special $? variable. You _could_ also use the && operator to handle errors, but <a href="#Using a bare &&">I don't recommend it</a>.
+To tell the shell to exit on an error you can append an -e to the shebang (#!/bin/sh -e), or run "set -e" at the top of the script. In my opinion you should _always_ do this. From here you can handle errors with the "if" statement or with the || operator, and you can still observe exit statuses with the special $? variable. You _could_ also use the && operator to handle errors, but I don't recommend it (see the "Using a bare &&" section).
 
 .section Arbitrary arguments that may start with a hyphen
 
@@ -64,7 +64,7 @@ Filename arguments to awk may be interpreted as variable assignments if the argu
 
 .section Globs
 
-If a glob fails, the result will be the literal glob. For instance, "for f in *.png" will set f to literally "*.png" if no file matches that glob. If a glob lacking a prefix matches a file starting with a hyphen and you pass that to a command, then it may be interpreted as an argument (see <a href="#Arbitrary arguments that may start with a hyphen">Arbitrary arguments that may start with a hyphen</a>). If your glob matches a _lot_ of files then it may even exceed the command line limit.
+If a glob fails, the result will be the literal glob. For instance, "for f in *.png" will set f to literally "*.png" if no file matches that glob. If a glob lacking a prefix matches a file starting with a hyphen and you pass that to a command, then it may be interpreted as an argument (see the "Arbitrary arguments that may start with a hyphen" section). If your glob matches a _lot_ of files then it may even exceed the command line limit.
 
 There are multiple ways to remedy failed globs. The most portable way is to manually check if the glob results in the literal glob, like [ "$f" = '*.png' ] (or an equivalent case statement) to go with the example from before. A more terse solution using find(1) is discussed below.
 
@@ -147,7 +147,7 @@ trap 'trap - EXIT HUP QUIT TERM INT ABRT; pkill -P $$' EXIT HUP QUIT TERM INT AB
 sleep 1000 & \
 wait
 
-If you're confused why I reset the trap from within the trap, see <a href="#Double executing traps">Double executing traps</a>.
+If you're confused why I reset the trap from within the trap, see the "Double executing traps" section.
 
 .section Making files in /tmp/ without mktemp(1)
 
