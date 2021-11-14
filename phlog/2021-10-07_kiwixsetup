@@ -75,7 +75,7 @@ $ ls -lh /home/kiwix/*.zim
 Running Kiwix
 =============
 
-images/workingkiwix.png Kiwix's homepage being displayed in qutebrowser
+../images/workingkiwix.png Kiwix's homepage being displayed in qutebrowser
 
 Test kiwix on the newly acquired ZIM files:
 

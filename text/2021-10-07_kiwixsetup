@@ -68,7 +68,7 @@ $ ls -lh /home/kiwix/*.zim\
 
 .section Running Kiwix
 
-.img images/workingkiwix.png Kiwix's homepage being displayed in qutebrowser
+.img ../images/workingkiwix.png Kiwix's homepage being displayed in qutebrowser
 
 Test kiwix on the newly acquired ZIM files:
 
