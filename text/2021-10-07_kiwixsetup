@@ -10,7 +10,7 @@ This post provides instructions for setting up Kiwix on an Alpine Linux system. 
 
 .section Installation
 
-As of writing, Kiwix is only available on Alpine via the testing repository (if you're on a different distro w/o a Kiwix package then check <a href="https://www.kiwix.org/en/download/">here</a> for downloads). If you don't already have the testing repo then you can add it as a <a href="https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management#Repository_pinning">"tagged repository"</a> by adding the following line to the /etc/apk/repositories file (feel free to use your mirror of choice):
+As of writing, Kiwix is only available on Alpine via the testing repository (check here[0] if you're on a different distro w/o a Kiwix package). If you don't already have the testing repo then you can add it as a tagged repository[1] by adding the following line to /etc/apk/repositories (feel free to use your mirror of choice):
 
 @testing http://mirror.leaseweb.com/alpine/edge/testing\
 
@@ -38,9 +38,9 @@ Now you need ZIM files for Kiwix to actually serve, these files contain the actu
 
 To find the ZIM file(s) you want, you should understand the format of these filenames:
 
-wikipedia_&lt;<a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1</a>&gt;_&lt;topic&gt;_&lt;scope&gt;_&lt;year&gt;-&lt;month&gt;.zim\
+wikipedia_&lt;ISO639-1[2]&gt;_&lt;topic&gt;_&lt;scope&gt;_&lt;year&gt;-&lt;month&gt;.zim\
 
-The "topic" restricts the set of articles to a single topic (e.g., computer, geography, chemistry), which can be "all" for no topic restriction. The "scope" describes what parts of each article are (not) stored. The "mini" scope provides _only_ <a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Lead_section">lead sections</a> of articles (usually the first 1-4 paragraphs) and the <a href="https://en.wikipedia.org/wiki/Help:Infobox">info boxes</a>. The "nopic" scope provides whole articles minus any pictures. The "maxi" scope consists of whole articles, pictures and all.
+The "topic" restricts the set of articles to a single topic (e.g., computer, geography, chemistry), which can be "all" for no topic restriction. The "scope" describes what parts of each article are (not) stored. The "mini" scope provides _only_ lead sections[3] of articles (usually the first 1-4 paragraphs) and the info boxes[4]. The "nopic" scope provides whole articles minus any pictures. The "maxi" scope consists of whole articles, pictures and all.
 
 As you can imagine, all of these variables greatly impact the filesize. Here's a fun one-liner to find the biggest ZIM file:
 
@@ -95,4 +95,12 @@ Start runit:
 # /etc/init.d/runitd start\
 
 And now hopefully you have a working Kiwix installation!
+
+.section References
+
+[0] https://www.kiwix.org/en/download/
+[1] https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management#Repository_pinning
+[2] https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+[3] https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Lead_section
+[4] https://en.wikipedia.org/wiki/Help:Infobox
 

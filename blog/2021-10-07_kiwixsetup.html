@@ -18,11 +18,12 @@
 <li><a href="#Running as a separate user">Running as a separate user</a></li>
 <li><a href="#Getting the ZIM files">Getting the ZIM files</a></li>
 <li><a href="#Running Kiwix">Running Kiwix</a></li>
+<li><a href="#References">References</a></li>
 </ul>
 <h2 id="Installation">
 Installation
 </h2>
-<p>As of writing, Kiwix is only available on Alpine via the testing repository (if you're on a different distro w/o a Kiwix package then check <a href="https://www.kiwix.org/en/download/">here</a> for downloads). If you don't already have the testing repo then you can add it as a <a href="https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management#Repository_pinning">"tagged repository"</a> by adding the following line to the /etc/apk/repositories file (feel free to use your mirror of choice):</p>
+<p>As of writing, Kiwix is only available on Alpine via the testing repository (check here[0] if you're on a different distro w/o a Kiwix package). If you don't already have the testing repo then you can add it as a tagged repository[1] by adding the following line to /etc/apk/repositories (feel free to use your mirror of choice):</p>
 <pre>@testing http://mirror.leaseweb.com/alpine/edge/testing
 </pre>
 <p>This will make it possible to add packages from the testing repository by appending @testing to the package name. Now install Kiwix as root:</p>
@@ -48,9 +49,9 @@ EDIT: You can find many more ZIM files for other MediaWiki sites (including the 
 <a href="https://download.kiwix.org/zim/">https://download.kiwix.org/zim/</a>
 </p>
 <p>To find the ZIM file(s) you want, you should understand the format of these filenames:</p>
-<pre>wikipedia_&lt;<a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1</a>&gt;_&lt;topic&gt;_&lt;scope&gt;_&lt;year&gt;-&lt;month&gt;.zim
+<pre>wikipedia_&lt;ISO639-1[2]&gt;_&lt;topic&gt;_&lt;scope&gt;_&lt;year&gt;-&lt;month&gt;.zim
 </pre>
-<p>The "topic" restricts the set of articles to a single topic (e.g., computer, geography, chemistry), which can be "all" for no topic restriction. The "scope" describes what parts of each article are (not) stored. The "mini" scope provides _only_ <a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Lead_section">lead sections</a> of articles (usually the first 1-4 paragraphs) and the <a href="https://en.wikipedia.org/wiki/Help:Infobox">info boxes</a>. The "nopic" scope provides whole articles minus any pictures. The "maxi" scope consists of whole articles, pictures and all.</p>
+<p>The "topic" restricts the set of articles to a single topic (e.g., computer, geography, chemistry), which can be "all" for no topic restriction. The "scope" describes what parts of each article are (not) stored. The "mini" scope provides _only_ lead sections[3] of articles (usually the first 1-4 paragraphs) and the info boxes[4]. The "nopic" scope provides whole articles minus any pictures. The "maxi" scope consists of whole articles, pictures and all.</p>
 <p>As you can imagine, all of these variables greatly impact the filesize. Here's a fun one-liner to find the biggest ZIM file:</p>
 <pre>$ w3m -dump https://dumps.wikimedia.org/other/kiwix/zim/wikipedia/ | 
 	tail -n +6 | head -n -2 | 
@@ -93,6 +94,14 @@ exec chpst -u "kiwix:$(id -Gn kiwix | tr ' ' ':')" kiwix-serve --port=8000 /home
 <pre># /etc/init.d/runitd start
 </pre>
 <p>And now hopefully you have a working Kiwix installation!</p>
+<h2 id="References">
+References
+</h2>
+<p>[0] https://www.kiwix.org/en/download/</p>
+<p>[1] https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management#Repository_pinning</p>
+<p>[2] https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes</p>
+<p>[3] https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Lead_section</p>
+<p>[4] https://en.wikipedia.org/wiki/Help:Infobox</p>
 <div>Powered by <a href="https://github.com/AN3223/an3223.github.io">this code</a> | <a href="feed.xml">RSS</a></div>
 </body>
 </html>

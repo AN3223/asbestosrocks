@@ -38,7 +38,7 @@ For the shebang, you can simply make it #!/bin/sh (or preferably <a href="#Error
 
 A common issue is the use of [[ in place of [ or test(1). Usages of [[ can often be simply substituted for [ but sometimes minor changes need to be made. For [[ statements that use pattern matching or regex, the case statement may be used instead (as long as the regex can be expressed as a pattern, otherwise you may want to try grep, sed, or awk). Expressions using the || or && operators should be broken into multiple [ expressions (you could substitute them with the equivalent -a and -o operators, but it's much more readable to do separate [ commands).
 
-For figuring out if an option is portable I usually look to POSIX. I use the POSIX Programmer's Manual which you can probably install as a package on your distro of choice, or view it online <a href="https://man7.org/linux/man-pages/dir_section_1.html">here</a> (1p are the relevant pages). It's provided as a set of man pages with sections ending with the letter p (e.g., man 1p find) and also has pages for shell builtin commands. This goes beyond removing bashisms, you would also be removing GNUisms/BSDisms/etc. This can be a daunting task, since there are _lots_ of extensions to shells and the utilities they use, so learning to differentiate between standard features and extensions takes time, and removing their usage from scripts can be tedious or even unproductive. However the payoff for learning this is worth while, since writing portable scripts is usually easier than porting non-portable scripts to other shells or other operating systems.
+For figuring out if an option is portable I usually look to POSIX. I use the POSIX Programmer's Manual which you can probably install as a package on your distro of choice, or view it online[0] (1p are the relevant pages). It's provided as a set of man pages with sections ending with the letter p (e.g., man 1p find) and also has pages for shell builtin commands. This goes beyond removing bashisms, you would also be removing GNUisms/BSDisms/etc. This can be a daunting task, since there are _lots_ of extensions to shells and the utilities they use, so learning to differentiate between standard features and extensions takes time, and removing their usage from scripts can be tedious or even unproductive. However the payoff for learning this is worth while, since writing portable scripts is usually easier than porting non-portable scripts to other shells or other operating systems.
 
 shellcheck(1) and checkbashisms(1) can detect some of these things automatically, but won't be able to detect everything.
 
@@ -216,4 +216,8 @@ Although this is only a problem when the && expression is the final command of t
 .link https://mywiki.wooledge.org/BashPitfalls
 .link https://github.com/dylanaraps/pure-sh-bible
 .link https://github.com/dylanaraps/pure-bash-bible
+
+.section References
+
+[0] https://man7.org/linux/man-pages/dir_section_1.html
 
