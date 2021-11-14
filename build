@@ -2,29 +2,28 @@
 
 cd "$(dirname "$0")"
 
-cd text
 unset -v feed_remake index_remake HTML
 
-for txt in *; do
-	html="../blog/$txt.html"
+for txt in ./text/*; do
+	html="./blog/${txt##*/}.html"
 	if [ ! -f "$html" ] || [ "$(find "$txt" -newer "$html")" ]; then
-		../genhtml "$txt" > "$html"
-		../genplain "$txt" > ../phlog/"$txt"
+		./genhtml "$txt" > "$html"
+		./genplain < "$txt" > ./phlog/"${txt##*/}"
 		feed_remake=1
 	fi
 done
 
-idx=../blog/index.html
+idx=./blog/index.html
 if [ ! -f "$idx" ] || [ "$(find . -type f -newer "$idx")" ]; then
 	index_remake=1
 fi
 
 if [ "$index_remake" ]; then
-	find . -type f | sort -r | ../genindex > ../blog/index.html
+	find ./text/ -type f ! -path '*/.*' | sort -r | ./genindex > ./blog/index.html
 fi
 
-if [ "$feed_remake" ] || [ ! -f feed.xml ]; then
-	HTML=1 ../genfeed > ../blog/feed.xml
-	../genfeed > ../phlog/feed.xml
+if [ "$feed_remake" ] || [ ! -f ./blog/feed.xml ] || [ ! -f ./phlog/feed.xml ]; then
+	HTML=1 ./genfeed > ./blog/feed.xml
+	./genfeed > ./phlog/feed.xml
 fi
 

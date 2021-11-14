@@ -1,11 +1,11 @@
 #!/bin/sh -e
 
-. ../blog.info/info
-../htmlheader "$TITLE"
+. ./blog.info/info
+./htmlheader "$TITLE"
 printf '%s\n' '<ul>'
 while read -r txt; do
-	printf '%s\n' "<li><a href=\"$txt.html\">$(head -n 1 "$txt")</a>"
+	printf '%s\n' "<li><a href=\"${txt##*/}.html\">$(head -n 1 "$txt")</a>"
 done
 printf '%s\n' '</ul>'
-../htmlfooter
+./htmlfooter
 

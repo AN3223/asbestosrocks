@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-. ../blog.info/info
+. ./blog.info/info
 cat - <<-EOF
 	<?xml version="1.0" encoding="UTF-8" ?>
 	<rss version="2.0">
@@ -10,12 +10,12 @@ cat - <<-EOF
 			<description>$DESCRIPTION</description>
 EOF
 
-for post in *; do
+for post in ./text/*; do
 	[ -f "$post" ] || continue
 
-	guid="../guid/$post.guid"
+	guid="./guid/${post##*/}.guid"
 	if [ ! -s "$guid" ]; then
-		printf '%s\n' "$post-r1" > "$guid"
+		printf '%s\n' "${post##*/}-r1" > "$guid"
 	elif [ "$(wc -l < "$guid")" -gt 1 ]; then
 		newguid=$(tail -n 1 < "$guid")
 		cat - > "$guid" <<-EOF
@@ -27,7 +27,7 @@ for post in *; do
 		<item>
 			<title>$(head -n 1 < "$post")</title>
 			<author>$AUTHOR</author>
-			<link>$LINK/$post${HTML+.html}</link>
+			<link>$LINK/${post##*/}${HTML+.html}</link>
 			<guid>$(cat "$guid")</guid>
 		</item>
 	EOF

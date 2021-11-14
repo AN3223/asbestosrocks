@@ -5,10 +5,10 @@ cat - <<-EOF
 <html>
 	<head>
 		<meta charset="utf-8">
-		<style>$(tr -d '\n\t' < ../blog.info/css)</style>
+		<style>$(tr -d '\n\t' < ./blog.info/css)</style>
 		<title>$1</title>
 	</head>
 	<body>
-		$(cat ../blog.info/header)
+		$(cat ./blog.info/header)
 EOF
 
