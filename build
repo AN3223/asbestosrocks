@@ -1,29 +1,30 @@
 #!/bin/sh -ex
 
-cd "$(dirname "$0")"
+# works like make's target: prerequisite
+outofdate() { [ ! -f "$1" ] || [ "$(find "$2" -type f -newer "$1")" ]; }
 
-unset -v feed_remake index_remake HTML
+cd "$(dirname "$0")"
+unset -v HTML
 
 for txt in ./text/*; do
-	html="./blog/${txt##*/}.html"
-	if [ ! -f "$html" ] || [ "$(find "$txt" -newer "$html")" ]; then
-		./genhtml "$txt" > "$html"
-		./genplain < "$txt" > ./phlog/"${txt##*/}.txt"
-		feed_remake=1
+	if outofdate ./blog/"${txt##*/}".html "$txt"; then
+		./genhtml "$txt" > ./blog/"${txt##*/}".html
+	fi
+
+	if outofdate ./phlog/"${txt##*/}".txt "$txt"; then
+		./genplain < "$txt" > ./phlog/"${txt##*/}".txt
 	fi
 done
 
-idx=./blog/index.html
-if [ ! -f "$idx" ] || [ "$(find . -type f -newer "$idx")" ]; then
-	index_remake=1
-fi
-
-if [ "$index_remake" ]; then
+if outofdate ./blog/index.html ./text/; then
 	find ./text/ -type f ! -path '*/.*' | sort -r | ./genindex > ./blog/index.html
 fi
 
-if [ "$feed_remake" ] || [ ! -f ./blog/feed.xml ] || [ ! -f ./phlog/feed.xml ]; then
+if outofdate ./blog/feed.xml ./blog/; then
 	HTML=1 ./genfeed > ./blog/feed.xml
+fi
+
+if outofdate ./phlog/feed.xml ./phlog/; then
 	./genfeed > ./phlog/feed.xml
 fi
 
