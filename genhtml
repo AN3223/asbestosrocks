@@ -20,11 +20,9 @@ while IFS= read -r line; do
 				"<img src=\"$src\" alt=\"$alt\">" \
 				'</a>'
 			;;
-		.link' '*) # syntax: .link link [text shown before...]
-			read -r link text <<-EOF
-				${line#.link }
-			EOF
-			printf '%s\n' '<p>' "$text" "<a href=\"$link\">$link</a>" '</p>'
+		.link' '*) # syntax: .link link
+			link=${line#.link }
+			printf '%s\n' "<p><a href=\"$link\">$link</a></p>"
 			;;
 		.section' '*) # syntax: .section section
 			printf '%s\n' "<h2 id=\"${line#.section }\">" "${line#.section }" '</h2>'

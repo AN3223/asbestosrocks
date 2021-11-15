@@ -39,7 +39,8 @@ Now you need ZIM files for Kiwix to actually serve, these files contain the actu
 
 https://dumps.wikimedia.org/other/kiwix/zim/wikipedia/
 
-https://download.kiwix.org/zim/ EDIT: You can find many more ZIM files for other MediaWiki sites (including the Arch Wiki!) here:
+EDIT: You can find many more ZIM files for other MediaWiki sites (including the Arch Wiki!) here:
+https://download.kiwix.org/zim/
 
 To find the ZIM file(s) you want, you should understand the format of these filenames:
 

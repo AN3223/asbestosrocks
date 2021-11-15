@@ -147,14 +147,8 @@ Making files in /tmp/ without mktemp(1)
 </h2>
 <p>This is a particularly nasty one. If you write to a file with output redirection (command > file) then the shell will place the output of the command into the file, preserving the permissions/ownership of the file if it already exists. When you're working with a directory like /tmp/ that *any user on the system* can create files in, this means *any user* can create the file before you write to it, giving _them_ ownership to _your_ file.</p>
 <p>This is obviously not what you would ever want, and this is why you should always use mktemp for creating temporary files/directories, despite the fact that mktemp isn't standardized (it's portable enough, I'm not aware of any modern systems that lack mktemp). Instead of giving you a hypothetical example of this issue, here are two real world issues:</p>
-<p>
-
-<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15912">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15912</a>
-</p>
-<p>
-
-<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1638">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1638</a>
-</p>
+<p><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15912">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15912</a></p>
+<p><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1638">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1638</a></p>
 <p>In CVE-2018-15912 they actually didn't need temporary files _at all_ and ended up just using $(command substitution) instead (they also dropped the &> syntax, which was superfluous/non-portable/likely a problem, since that writes stdout+stderr and they were only interested in using stdout, so a warning printed to stderr could have caused unexpected behavior).</p>
 <p>Temporary files should be a last resort, since cleaning them up and safely creating them is a burden. Additionally, creating temporary files is likely more work for the OS than a pipe or a subshell. If you're working with sensitive data and you aren't careful to set TMPDIR to /dev/shm then that data may land on disk when it really shouldn't (/tmp is on disk for many systems).</p>
 <p>In CVE-2014-1638 they had the right-ish idea of using (the deprecated and non-portable) tempfile(1), but added suffixes to the filenames themselves, completely nullifying the purpose of using tempfile. This was resolved by using "mktemp --suffix .locales" instead (the --suffix flag isn't necessary or portable, and its behavior appears to be unused in Debian's script).</p>
@@ -191,29 +185,14 @@ fi</pre>
 <h2 id="Contribute to this post">
 Contribute to this post
 </h2>
-<p>
-
-<a href="https://github.com/AN3223/an3223.github.io/issues">https://github.com/AN3223/an3223.github.io/issues</a>
-</p>
-<p>
-
-<a href="https://github.com/AN3223/an3223.github.io/pulls">https://github.com/AN3223/an3223.github.io/pulls</a>
-</p>
+<p><a href="https://github.com/AN3223/an3223.github.io/issues">https://github.com/AN3223/an3223.github.io/issues</a></p>
+<p><a href="https://github.com/AN3223/an3223.github.io/pulls">https://github.com/AN3223/an3223.github.io/pulls</a></p>
 <h2 id="See also">
 See also
 </h2>
-<p>
-
-<a href="https://mywiki.wooledge.org/BashPitfalls">https://mywiki.wooledge.org/BashPitfalls</a>
-</p>
-<p>
-
-<a href="https://github.com/dylanaraps/pure-sh-bible">https://github.com/dylanaraps/pure-sh-bible</a>
-</p>
-<p>
-
-<a href="https://github.com/dylanaraps/pure-bash-bible">https://github.com/dylanaraps/pure-bash-bible</a>
-</p>
+<p><a href="https://mywiki.wooledge.org/BashPitfalls">https://mywiki.wooledge.org/BashPitfalls</a></p>
+<p><a href="https://github.com/dylanaraps/pure-sh-bible">https://github.com/dylanaraps/pure-sh-bible</a></p>
+<p><a href="https://github.com/dylanaraps/pure-bash-bible">https://github.com/dylanaraps/pure-bash-bible</a></p>
 <h2 id="References">
 References
 </h2>
