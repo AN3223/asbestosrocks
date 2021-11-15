@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-. ./blog.info/info
+. ./info/info
 ./htmlheader "$TITLE"
 printf '%s\n' '<ul>'
 while read -r txt; do

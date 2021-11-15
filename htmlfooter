@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cat ./blog.info/footer
+cat ./info/footer
 printf '%s\n' '</body>' '</html>'
 

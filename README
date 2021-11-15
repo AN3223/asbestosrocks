@@ -6,13 +6,14 @@ directives for generating certain elements (see text/.example).
 If you want to use this setup to host your own blog then simply:
 
 1) Fork this repo (for Github Pages, repo name must be <username>.github.io)
-2) rm -r ./text/* ./blog/*
-3) Edit the files in ./blog.info/ to personalize your blog
+2) rm -r ./text/* ./*log/ ./images/
+3) Edit the files in ./info/ to personalize your blog
 4) Write posts in ./text/*
 5) ./build
 6) Share your posts by committing + pushing your changes
 
-The posts will be in the blog/ directory, you may want to set this as the blog
+HTML posts will be in the blog/ directory, plaintext posts (suitable for
+gopher) will be in phlog/
 
 The RSS feed is automatically updated by ./build so you usually shouldn't worry
 about it. But in the rare case you want to re-push the post to the feed (e.g.,
