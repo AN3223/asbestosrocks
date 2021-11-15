@@ -20,10 +20,10 @@ if outofdate ./blog/index.html ./text/; then
 fi
 
 if outofdate ./blog/feed.xml ./blog/; then
-	SUFFIX=.html ./genfeed > ./blog/feed.xml
+	env PREFIX=blog/ SUFFIX=.html ./genfeed > ./blog/feed.xml
 fi
 
 if outofdate ./phlog/feed.xml ./phlog/; then
-	SUFFIX=.txt ./genfeed > ./phlog/feed.xml
+	env PREFIX=phlog/ SUFFIX=.txt ./genfeed > ./phlog/feed.xml
 fi
 
