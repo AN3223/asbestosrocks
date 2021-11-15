@@ -4,7 +4,6 @@
 outofdate() { [ ! -f "$1" ] || [ "$(find "$2" -type f -newer "$1")" ]; }
 
 cd "$(dirname "$0")"
-unset -v HTML
 
 for txt in ./text/*; do
 	if outofdate ./blog/"${txt##*/}".html "$txt"; then
@@ -21,10 +20,10 @@ if outofdate ./blog/index.html ./text/; then
 fi
 
 if outofdate ./blog/feed.xml ./blog/; then
-	HTML=1 ./genfeed > ./blog/feed.xml
+	SUFFIX=.html ./genfeed > ./blog/feed.xml
 fi
 
 if outofdate ./phlog/feed.xml ./phlog/; then
-	./genfeed > ./phlog/feed.xml
+	SUFFIX=.txt ./genfeed > ./phlog/feed.xml
 fi
 

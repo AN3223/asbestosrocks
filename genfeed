@@ -27,7 +27,7 @@ for post in ./text/*; do
 		<item>
 			<title>$(head -n 1 < "$post")</title>
 			<author>$AUTHOR</author>
-			<link>$LINK/${post##*/}${HTML+.html}</link>
+			<link>$LINK/${post##*/}${SUFFIX?}</link>
 			<guid>$(cat "$guid")</guid>
 		</item>
 	EOF
