@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 # works like make's target: prerequisite
 outofdate() { [ ! -f "$1" ] || [ "$(find "$2" -type f -newer "$1")" ]; }
@@ -7,23 +7,28 @@ cd "$(dirname "$0")"
 
 for txt in ./text/*; do
 	if outofdate ./blog/"${txt##*/}".html "$txt"; then
+		echo "updating $txt" >&2
 		./genhtml "$txt" > ./blog/"${txt##*/}".html
 	fi
 
 	if outofdate ./phlog/"${txt##*/}".txt "$txt"; then
+		echo "updating $txt" >&2
 		./genplain < "$txt" > ./phlog/"${txt##*/}".txt
 	fi
 done
 
 if outofdate ./blog/index.html ./text/; then
+	echo "updating blog's index" >&2
 	find ./text/ -type f ! -path '*/.*' | sort -r | ./genindex > ./blog/index.html
 fi
 
 if outofdate ./blog/feed.xml ./blog/; then
+	echo "updating blog's RSS feed" >&2
 	env PREFIX=blog/ SUFFIX=.html ./genfeed > ./blog/feed.xml
 fi
 
 if outofdate ./phlog/feed.xml ./phlog/; then
+	echo "updating phlog's RSS feed" >&2
 	env PREFIX=phlog/ SUFFIX=.txt ./genfeed > ./phlog/feed.xml
 fi
 
