@@ -16,16 +16,14 @@ while IFS= read -r line; do
 			;;
 		.img' '*) # syntax: .img src [alt...]
 			line=${line#.img }; src=${line%% *}; alt=${line#* };
-			printf '%s\n' "<a href=\"$src\">" \
-				"<img src=\"$src\" alt=\"$alt\">" \
-				'</a>'
+			printf '%s\n' "<a href=\"$src\"><img src=\"$src\" alt=\"$alt\"></a>"
 			;;
 		.link' '*) # syntax: .link link
 			link=${line#.link }
 			printf '%s\n' "<p><a href=\"$link\">$link</a></p>"
 			;;
 		.section' '*) # syntax: .section section
-			printf '%s\n' "<h2 id=\"${line#.section }\">" "${line#.section }" '</h2>'
+			printf '%s\n' "<h2 id=\"${line#.section }\">${line#.section }</h2>"
 			;;
 		.index)
 			sed -n '
