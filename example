@@ -14,7 +14,7 @@ below is a test index:
 
 .section this is a test section
 
-.img images/Wikipedia-logo-en-big.png this is a test image
+.img ../data/Wikipedia-logo-en-big.png this is a test image
 
 .section this is another test section
 

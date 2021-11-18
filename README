@@ -1,19 +1,32 @@
-The goal here is to have a simple blog, just HTML+RSS, without having to write
-it all by hand. The blogger writes a simple text file with one paragraph per
-line, which gets converted to an HTML document. The text file can also contain
-directives for generating certain elements (see text/.example).
+A Straightforward Blogging Environment for Simple Text Oriented Sharing of
+Random Opinions/Creativity/Knowledge/Stuff
+
+The goal is to have a simple blog without having to write it all by hand. The
+blogger writes a simple text file which gets converted to an HTML document. The
+first line is the title, and every subsequent line is a paragraph. Some
+directives are also available for images/links/indexes (see ./example).
 
 If you want to use this setup to host your own blog then simply:
 
-1) Fork this repo (for Github Pages, repo name must be <username>.github.io)
-2) rm -r ./text/* ./*log/ ./images/
-3) Edit the files in ./info/ to personalize your blog
-4) Write posts in ./text/*
-5) ./build
-6) Share your posts by committing + pushing your changes
+1) Fork this repo (for Github Pages repo name must be <username>.github.io)
+2) Populate ./info/ with the following files:
+	- ./info/info, shell script defining four variables:
+		- DESCRIPTION
+			- A description for your blog
+		- TITLE
+			- A title for your blog, used for RSS and blog/index.html
+		- LINK
+			- A link to your blog, used for RSS
+		- AUTHOR (optional)
+			- You
+	- ./info/header (optional), html for the beginning of <body>
+	- ./info/footer (optional), html for the end of <body>
+	- ./info/css (optional), css to be embedded into <style>
+3) Write posts in ./text/*
+4) ./build
+5) Share your posts by committing + pushing your changes
 
-HTML posts will be in the blog/ directory, plaintext posts (suitable for
-gopher) will be in phlog/
+HTML posts will be in the blog/ directory, plaintext posts will be in phlog/
 
 The RSS feed is automatically updated by ./build so you usually shouldn't worry
 about it. But in the rare case you want to re-push the post to the feed (e.g.,
