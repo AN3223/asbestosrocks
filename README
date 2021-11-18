@@ -24,7 +24,8 @@ If you want to use this setup to host your own blog then simply:
 	- ./info/css (optional), css to be embedded into <style>
 3) Write posts in ./text/*
 4) ./build
-5) Share your posts by committing + pushing your changes
+5) rm .gitignore
+6) Share your posts by committing + pushing your changes
 
 HTML posts will be in the blog/ directory, plaintext posts will be in phlog/
 
